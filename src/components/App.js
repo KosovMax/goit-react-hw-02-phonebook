@@ -3,33 +3,38 @@ import ContactForm from './ContactForm/ContactForm'
 import ContactList from './ContactList/ContactList'
 import Filter from './Filter/Filter'
 
-export default class Section extends Component{
+export default class App extends Component{
 
     constructor(props){
         super(props);
 
         this.state = {
             contacts: [],
-            name: '',
-            number: '',
-            filter:''
-        }
+            filter: ''
+          }
     }
 
-    updatePhonebook = (data) => {
-        const $this = this;
-        Object.keys(data).forEach(k => {
-            const v = data[k];
-            $this.setState({ [k]: v })
-        });
+    updatePhonebook = (newContact) => {
+        this.setState(prevState => {
+            return{ contacts: [...prevState.contacts, newContact] }
+        })
+    }
+
+    findName = (name) => {
+        const { contacts } = this.state;
+        return contacts.find((contact) => {
+            return contact.name === name
+        })
     }
 
     updateFilter = (filter) =>{
       this.setState({filter:filter})
     }
 
-    updateContacts = (contacts) => {
-      this.setState({contacts:contacts})
+    removeContactId = (id) => {
+        this.setState(prevState => {
+            return {contacts: prevState.contacts.filter(contact => contact.id !== id)}
+        });
     }
 
     render(){
@@ -41,11 +46,11 @@ export default class Section extends Component{
         return (
            <>   
                 <h2>Phonebook</h2>
-                <ContactForm name={name} contacts={contacts} changePhonebook={this.updatePhonebook} />
+                <ContactForm onFindName={this.findName} onPhonebook={this.updatePhonebook} />
 
                 <h2>Contacts</h2>
-                <Filter filter={filter} changeFilter={this.updateFilter} />
-                <ContactList filter={filter} contacts={contacts} changeContacts={this.updateContacts}/> 
+                <Filter filter={filter} onFilter={this.updateFilter} />
+                <ContactList contacts={contacts} filter={filter} removeContactId={this.removeContactId}/> 
            </>
         );
     }

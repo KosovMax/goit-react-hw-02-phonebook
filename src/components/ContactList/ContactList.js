@@ -6,26 +6,18 @@ export default class ContactList extends Component{
         super(props);
     }
 
-    deleteContact = (id) => {
-
-        const { contacts, changeContacts } = this.props;
-
-        const index = contacts.map(contact => { return contact.id; }).indexOf(id);
-        if(index != -1) contacts.splice(index, 1);
-        
-        changeContacts(contacts);
-    } 
+    
 
     render(){
-        const { contacts, filter } = this.props;
+        const { filter, contacts, removeContactId } = this.props;
 
         return(
                 <ul>
                     {
-                        contacts.filter(function(contact){
+                        contacts.filter(contact => {
                             return contact.name.toLowerCase().startsWith(filter.toLowerCase());
-                        }).map(contact => (
-                            <li key={contact.id}><span> {contact.name}: {contact.number} </span><button onClick={()=>{this.deleteContact(contact.id)}}>Delete</button> </li>
+                        }).map(({id, name, phone}) => (
+                            <li key={id}><span> {name}: {phone} </span><button onClick={()=>{removeContactId(id)}}>Delete</button> </li>
                         ))
                     }
                 </ul>

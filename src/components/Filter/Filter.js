@@ -20,13 +20,11 @@ export default class Filter extends Component{
 
     handleChange = evt => {
 
-        console.log("filter", evt.target.value)
-
         this.setState({ filter: evt.target.value });
 
-        const { changeFilter } = this.props;
+        const { onFilter } = this.props;
 
-        changeFilter(evt.target.value);
+        onFilter(evt.target.value);
 
     }
 
