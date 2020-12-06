@@ -10,12 +10,8 @@ const INITIAL_STATE = {
 
 export default class ContactForm extends Component{
 
-    constructor(props){
-        super(props);
-
-        this.state={
-            ...INITIAL_STATE
-        }
+    state={
+        ...INITIAL_STATE
     }
 
     handleChange = ({target}) => {
@@ -26,7 +22,7 @@ export default class ContactForm extends Component{
     handleSubmit = evt => {
         evt.preventDefault();
 
-        const { onFindName, onPhonebook } = this.props;
+        const { onFindName, onAddContact } = this.props;
         const { name, phone } = this.state;
 
         if(!name || !phone){
@@ -40,7 +36,7 @@ export default class ContactForm extends Component{
         }
 
 
-        onPhonebook({id:uuidv4(), ...this.state});
+        onAddContact({id:uuidv4(), name:name, phone:phone});
 
         this.reset();
 

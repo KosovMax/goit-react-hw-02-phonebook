@@ -5,16 +5,12 @@ import Filter from './Filter/Filter'
 
 export default class App extends Component{
 
-    constructor(props){
-        super(props);
-
-        this.state = {
-            contacts: [],
-            filter: ''
-          }
+    state = {
+        contacts: [],
+        filter: ''
     }
 
-    updatePhonebook = (newContact) => {
+    addContact = (newContact) => {
         this.setState(prevState => {
             return{ contacts: [...prevState.contacts, newContact] }
         })
@@ -46,7 +42,7 @@ export default class App extends Component{
         return (
            <>   
                 <h2>Phonebook</h2>
-                <ContactForm onFindName={this.findName} onPhonebook={this.updatePhonebook} />
+                <ContactForm onFindName={this.findName} onAddContact ={this.addContact} />
 
                 <h2>Contacts</h2>
                 <Filter filter={filter} onFilter={this.updateFilter} />
